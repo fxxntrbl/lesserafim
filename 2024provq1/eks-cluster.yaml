@@ -1,0 +1,37 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: skills-eks-cluster 
+  region: ap-northeast-2 
+  version: "1.27"
+
+vpc:
+  id: "<vpc id>"
+  subnets:
+    private:
+      ap-northeast-2a:
+          id: "<subnet id>"
+      ap-northeast-2b:
+          id: "<subnet id>"
+
+managedNodeGroups:
+  - name: skills-ng 
+    instanceType: m5.large 
+    desiredCapacity: 2
+    volumeSize: 20
+    privateNetworking: true
+    iam:
+      withAddonPolicies:
+        imageBuilder: true # Amazon ECR
+        albIngress: true  # albIngress
+        cloudWatch: true # cloudWatch
+        autoScaler: true # auto scaling
+        ebs: true # EBS CSI Driver
+
+fargateProfiles:
+  - name: skills-fargate-profile
+    selectors:
+      - namespace: default
+        labels:
+          app: fargate-app
