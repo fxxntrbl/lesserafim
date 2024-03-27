@@ -19,3 +19,7 @@
 
 # Go workspace file
 go.work
+
+
+# fuck you macos
+.DS_Store
