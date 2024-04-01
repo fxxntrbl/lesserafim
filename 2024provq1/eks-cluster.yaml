@@ -7,13 +7,13 @@ metadata:
   version: "1.27"
 
 vpc:
-  id: "<vpc id>"
+  id: "vpc-0f46bd6d06387555c"
   subnets:
     private:
       ap-northeast-2a:
-          id: "<subnet id>"
+          id: "subnet-0207817425f6ff62c"
       ap-northeast-2b:
-          id: "<subnet id>"
+          id: "subnet-06aa45ba301bfa481"
 
 managedNodeGroups:
   - name: skills-ng 

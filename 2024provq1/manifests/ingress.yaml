@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: skills-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    # 직접 서브넷 넣기
+    alb.ingress.kubernetes.io/subnets: subnet-0ae739036f59c7f59, subnet-0362bb5835bcf0b87
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: skills-eks-group
+    alb.ingress.kubernetes.io/group.order: '1'
+spec:
+  ingressClassName: alb
+  rules:
+  - http:
+      paths:
+       - path: /hello
+         pathType: Prefix
+         backend:
+           service:
+            name: skills-msa1
+            port:
+              number: 8080
