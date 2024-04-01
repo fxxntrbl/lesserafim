@@ -90,3 +90,4 @@ kubectl get deployment -n kube-system aws-load-balancer-controller
 
 - [그저 goat](https://theblackskirts.notion.site/1-ce89d70048064a1f9f60c8b53a21a5bb?pvs=4)
 - [성민이 블로그](https://blog.isamin.kr/takanashi-hoshino/)
+- [AWS Docs](https://aws.amazon.com/ko/blogs/containers/leverage-aws-secrets-stores-from-eks-fargate-with-external-secrets-operator/)
