@@ -2,29 +2,29 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: skills-eks-cluster 
-  region: ap-northeast-2 
-  version: "1.27"
+  name: skills-eks-cluster
+  region: ap-northeast-2
+  version: "1.29"
 
 vpc:
-  id: "vpc-0f46bd6d06387555c"
+  id: "<VPC ID>"
   subnets:
     private:
       ap-northeast-2a:
-          id: "subnet-0207817425f6ff62c"
+        id: "<SUBNET ID>"
       ap-northeast-2b:
-          id: "subnet-06aa45ba301bfa481"
+        id: "<SUBNET ID>"
 
 managedNodeGroups:
-  - name: skills-ng 
-    instanceType: m5.large 
+  - name: skills-ng
+    instanceType: m5.large
     desiredCapacity: 2
     volumeSize: 20
     privateNetworking: true
     iam:
       withAddonPolicies:
         imageBuilder: true # Amazon ECR
-        albIngress: true  # albIngress
+        albIngress: true # albIngress
         cloudWatch: true # cloudWatch
         autoScaler: true # auto scaling
         ebs: true # EBS CSI Driver
