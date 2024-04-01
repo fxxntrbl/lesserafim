@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fargate-app
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fargate-app
+  template:
+    metadata:
+      labels:
+        app: fargate-app
+    spec:
+      containers:
+        - name: skills-ecr
+          image: 763789849822.dkr.ecr.ap-northeast-2.amazonaws.com/skills-ecr:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080

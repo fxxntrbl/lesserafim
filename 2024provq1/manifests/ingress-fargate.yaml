@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fargate-app
+  namespace: default
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    # 서브넷 넣기
+    alb.ingress.kubernetes.io/subnets: subnet-0ae739036f59c7f59, subnet-0362bb5835bcf0b87
+    alb.ingress.kubernetes.io/group.name: skills-eks-group
+    alb.ingress.kubernetes.io/group.order: "2"
+
+    # SSL Settings
+    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:763789849822:certificate/11fceb32-9cc2-4b45-934f-c8903e4f9e12
+    #alb.ingress.kubernetes.io/ssl-redirect: "443"
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /world
+            pathType: Prefix
+            backend:
+              service:
+                name: fargate-app
+                port:
+                  number: 8080
