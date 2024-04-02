@@ -34,11 +34,15 @@ sudo usermod -aG docker ec2-user # no need for sudo
 
 ### CodeCommit
 
+---
+
 `git clone` 해서 선수 배포파일 업로드하자
 
 참고로 git clone 할 때 IAM 유저 만들어야 함
 
 ### S3 버킷 생성
+
+---
 
 문제에 나와있는 대로 **ACL**, **퍼블릭 액세스** 등 잘 체크하고 만들어주자
 
@@ -62,6 +66,8 @@ sudo usermod -aG docker ec2-user # no need for sudo
 
 ### CodePipeline
 
+---
+
 알잘딱 ㄱ + `배포하기 전에 파일 압축 풀기`
 
 서비스 역할 하라는대로 하는데 권한 잘 주자
@@ -69,6 +75,8 @@ sudo usermod -aG docker ec2-user # no need for sudo
 ## Backend
 
 ### CodeCommit
+
+---
 
 `git clone` 해서 선수 배포파일 업로드하자
 
@@ -82,9 +90,13 @@ RUN apt update && apt install -y curl
 
 ### ECR
 
+---
+
 **권한 확인** **IMMUTABLE** **암호화** **스캐닝**
 
 ### CodeBuild
+
+---
 
 - `buildspec.yml`
 
@@ -128,6 +140,8 @@ artifacts:
 
 ### ECS
 
+---
+
 클러스터 만드셈
 
 로깅 이런거 잘 확인하자
@@ -160,6 +174,8 @@ CMD-SHELL, curl -f http://localhost:8080/health || exit 1
 
 ### CodeDeploy
 
+---
+
 - `appspec.yml`
 
 ```yml
@@ -176,19 +192,21 @@ Resources:
 
 ### CodePipeline
 
+---
+
 권한 설정에 유의하자
 
 끼워 맞추면 끝남
 
 자잘한 셋팅에 유의하시고
 
-### 중간 점검
+## 중간 점검
 
 니가 만약 여기까지 잘 따라왔으면 alb endpoint에 요청을 날렸을때 랄끼얏호우하고 값을 뱉을거임
 
 안되면 **Target Group** **ECS Service** **CodeDeploy** 를 확인해보자
 
-### CloudFront
+## CloudFront 최종
 
 이미 배포한거에 원본을 추가하자
 
