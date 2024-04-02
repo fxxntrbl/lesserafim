@@ -19,6 +19,8 @@ WORKDIR /app
 # copy the jar file from the build stage
 COPY --from=build /workspace/app/build/libs/*.jar app.jar
 
+RUN apt update && apt install -y curl
+
 EXPOSE 8080
 
 # run the application

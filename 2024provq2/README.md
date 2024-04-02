@@ -74,6 +74,12 @@ sudo usermod -aG docker ec2-user # no need for sudo
 
 얘도 역시 git clone 할 때 IAM 유저 만들어야 함
 
+**Dockerfile** 에 **curl**이 똑바로 되어있는지 보자 (health check 셋팅할때 짜증남)
+
+```Dockerfile
+RUN apt update && apt install -y curl
+```
+
 ### ECR
 
 **권한 확인** **IMMUTABLE** **암호화** **스캐닝**
