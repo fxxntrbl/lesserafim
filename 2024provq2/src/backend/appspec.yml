@@ -1,0 +1,9 @@
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:ap-northeast-2:763789849822:task-definition/skills-taskdef:2"
+        LoadBalancerInfo:
+          ContainerName: "skills-app-alb"
+          ContainerPort: 8080

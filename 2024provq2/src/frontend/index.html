@@ -1,0 +1,31 @@
+<!doctype HTML>
+<html>
+<head>
+    <title>AWS S3 & backend test</title>
+    <!-- import jquery 3 from google cdn -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <h1>Hello, World!</h1>
+  <button type="button" id="test">API Test</button>
+  <span id="result">RESULT : </span>
+  <script>
+    $(document).ready(function(){
+      $("#test").click(function(){
+        $.ajax({
+          url: "http://localhost:3000/healthy",
+          type: "GET",
+          success: function(data){
+            console.log(data);
+            $("#result").text("RESULT : " + data);
+          },
+          error: function(err){
+            console.log(err);
+            $("#result").text("RESULT : " + err);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
