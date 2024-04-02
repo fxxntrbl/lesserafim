@@ -66,7 +66,108 @@ sudo usermod -aG docker ec2-user # no need for sudo
 
 서비스 역할 하라는대로 하는데 권한 잘 주자
 
+## Backend
+
+### CodeCommit
+
+`git clone` 해서 선수 배포파일 업로드하자
+
+얘도 역시 git clone 할 때 IAM 유저 만들어야 함
+
+### ECR
+
+**권한 확인** **IMMUTABLE** **암호화** **스캐닝**
+
+### CodeBuild
+
+- `buildspec.yml`
+
+```yaml
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - export AWS_ACCOUNT_ID=<ACCOUNT ID>
+      - export IMAGE_REPO_NAME=<REPO NAME>
+      - export IMAGE_TAG=latest
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - printf '[{"name":"<REPO NAME>","imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
+    - appspec.yml
+```
+
+추가적으로 VPC 설정이 잘 되는지 확인하자
+
+`VPC 설정 검증` ㄱㄱ
+
+그 외 로깅이나 env 여기서 설정 ㄱㄱ (예시로 buildspec에 있는 애들...? 잘 몰루)
+
+### ECS
+
+클러스터 만드셈
+
+로깅 이런거 잘 확인하자
+
+### ECS (1) - Task Definiton
+
+하라는대로 만들자
+
+참고로 여기서 말하는 컨테이너 이름 맘대로 줘도 댐 `appspec` 이랑 일치하면 됌
+
+- `health check`
+
+```bash
+CMD-SHELL, curl -f http://localhost:8080/health || exit 1
+```
+
+### ECS (2) - ALB, Target Group
+
+**보안 그룹** 에 유의하자 (80 443 anyopen)
+
+상식이지만 ALB는 `internet-facing`, 퍼블릭 서브넷에 던지자
+
+### ECS (3) - Service
+
+끼워맞추자!
+
+배포 옵션에서 **CodeDeploy** 로 바꾸는거 잊지 ㄴㄴ
+
+네트워킹 옵션도...
+
+### CodeDeploy
+
+- `appspec.yml`
+
+```yml
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "<TASKDEF ARN NAME>"
+        LoadBalancerInfo:
+          ContainerName: "<TASKDEF CONTAINER NAME>"
+          ContainerPort: 8080
+```
+
 ## 참고자료
 
 - [그저goat](https://theblackskirts.notion.site/2-2d57aa686e704589b4479fd25375930d?pvs=4)
 - [CodeCommit 403 에러](https://velog.io/@on_cloud/AWS-CodeCommit-Error)
+- [유튭](https://youtu.be/8iEw58P_0z8?si=XYo3lyDPmnmCtlzH)
