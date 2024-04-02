@@ -186,6 +186,10 @@ Resources:
 
 이미 배포한거에 원본을 추가하자
 
+![origin](https://github.com/fxxntrbl/lesserafim/blob/main/2024provq2/images/origin.png)
+
+![pattern](https://github.com/fxxntrbl/lesserafim/blob/main/2024provq2/images/pattern.png)
+
 ## 참고자료
 
 - [그저goat](https://theblackskirts.notion.site/2-2d57aa686e704589b4479fd25375930d?pvs=4)
