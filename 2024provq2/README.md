@@ -112,6 +112,8 @@ artifacts:
     - appspec.yml
 ```
 
+만약에... ECR을 안 쓴다면 뭐 똥꼬쇼 ㄱ
+
 추가적으로 VPC 설정이 잘 되는지 확인하자
 
 `VPC 설정 검증` ㄱㄱ
@@ -165,6 +167,24 @@ Resources:
           ContainerName: "<TASKDEF CONTAINER NAME>"
           ContainerPort: 8080
 ```
+
+### CodePipeline
+
+권한 설정에 유의하자
+
+끼워 맞추면 끝남
+
+자잘한 셋팅에 유의하시고
+
+### 중간 점검
+
+니가 만약 여기까지 잘 따라왔으면 alb endpoint에 요청을 날렸을때 랄끼얏호우하고 값을 뱉을거임
+
+안되면 **Target Group** **ECS Service** **CodeDeploy** 를 확인해보자
+
+### CloudFront
+
+이미 배포한거에 원본을 추가하자
 
 ## 참고자료
 
