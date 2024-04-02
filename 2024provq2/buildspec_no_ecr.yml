@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Check Gradle version
+      - ./gradlew --version
+  build:
+    commands:
+      - echo Starting the build
+      - ./gradlew bootJar
+  post_build:
+    commands:
+      - echo end
+
+artifacts:
+  files:
+    # - imagedefinitions.json
+    - appspec.yml
